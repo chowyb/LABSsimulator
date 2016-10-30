@@ -1,9 +1,7 @@
 $(document).ready(function() {
 	// code copied from http://www.comp.nus.edu.sg/~stevenha/cs4234/miniproject.html
 	var s, n;
-	var oldn = 0;
-	var bc = -1;
-	var vc = -1;
+	var bc = 0;
 
 	function convert(ch) {
 		if ('A' <= ch && ch <= 'Z') {
@@ -69,39 +67,28 @@ $(document).ready(function() {
 		for (var i = 0; i < s.length; i++) {
 			showButton(i, s[i]);
 		}
-		for (var i = vc; i >= s.length; i--) {
+		for (var i = bc; i >= s.length; i--) {
 			hideButton(i);
 		}
 	}
 
 	function hideButton(index) {
-		if (index <= vc) {
-			$('#button-' + index).hide(0);
-			vc = index - 1;
-		}
+		$('#button-' + index).hide(0);
 	}
 
 	function showButton(index, value) {
-		if (index > vc) {
-			if (index < bc) {
-				$('#button-' + index).show(0);
-				$('#button-text-' + index).html(value);
-				vc = index;
-			}
-			else {
-				createNewButton(index, value);
-				vc = index;
-				bc = index;
-			}
+		if (index >= bc) {
+			createNewButton();
 		}
-		else {
-			$('#button-text-' + index).html(value);
-		}
+		$('#button-' + index).show(0);
+		$('#button-text-' + index).html(value);
 	}
 
-	function createNewButton(index, value) {
-		button = '<span id="button-' + index + '" class="bit-span">' + index + '<div><button id="button-text-' + index + '" class="bit-button" type="button" data-id="' + index + '">' + value + '</button></div></span>';
+	function createNewButton() {
+		index = bc;
+		button = '<span id="button-' + index + '" class="bit-span">' + index + '<div><button id="button-text-' + index + '" class="bit-button" type="button" data-id="' + index + '"></button></div></span>';
 		$('#buttons').append(button);
+		bc++;
 	}
 
 	function replaceRLN() {
