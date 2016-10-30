@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	// code copied from http://www.comp.nus.edu.sg/~stevenha/cs4234/miniproject.html
-	var s, n;
+	var s = [];
+	var n;
 	var bc = 0;
 
 	function convert(ch) {
@@ -43,6 +44,9 @@ $(document).ready(function() {
 	function process() {
 		var rln = $('#rln').val();
 		var curValue = 1;
+		if (s.length > 0) {
+			curValue = s[0];
+		}
 		n = 0;
 		for (var i = 0, j = 0; i < rln.length; i++) {
 			var repeat = convert(rln[i]);
