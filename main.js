@@ -111,7 +111,7 @@ $(document).ready(function() {
 	}
 
 	function recreateSVG() {
-		$('#svg-container').html('<svg id="svg-canvas" height="400" width="' + (50 * (n - 1)) + '"></svg>');
+		$('#svg-container').html('<svg id="svg-canvas" height="400" width="' + (25 * (n - 1)) + '"></svg>');
 	}
 
 	function calculateAndOutput() {
@@ -160,8 +160,8 @@ $(document).ready(function() {
 			if (size < 0) {
 				size *= -1;
 			}
-			var x = -40 + (i * 50);
-			svghtml += '<text x="' + x + '" y="225">' + i + '</text><rect x="' + x + '" y="' + y + '" width="30" height="' + size + '" style="fill:rgb(0, 0, 255)" />';
+			var x = -20 + (i * 25);
+			svghtml += '<text x="' + x + '" y="225">' + i + '</text><rect x="' + x + '" y="' + y + '" width="15" height="' + size + '" style="fill:rgb(0, 0, 255)" />';
 		}
 		if (usenew) {
 			for (var i = 1; i < cn.length; i++) {
@@ -176,12 +176,12 @@ $(document).ready(function() {
 				if (size < 0) {
 					size *= -1;
 				}
-				var x = -40 + (i * 50);
+				var x = -20 + (i * 25);
 				var colour = "255, 0, 0";
 				if (Math.abs(c[i]) >= Math.abs(cn[i])) {
 					colour = "0, 255, 0";
 				}
-				svghtml += '<rect x="' + x + '" y="' + y + '" width="30" height="' + size + '" style="fill:rgb(' + colour + ')" />';	
+				svghtml += '<rect x="' + x + '" y="' + y + '" width="15" height="' + size + '" style="fill:rgb(' + colour + ')" />';	
 			}
 		}
 		$('#svg-canvas').html(svghtml);
