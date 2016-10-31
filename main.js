@@ -3,6 +3,10 @@ $(document).ready(function() {
 	var s = [];
 	var n;
 	var bc = 0;
+	var c;
+	var cn;
+	var e;
+	var f;
 
 	function convert(ch) {
 		if ('A' <= ch && ch <= 'Z') {
@@ -22,23 +26,50 @@ $(document).ready(function() {
 		}
 	}
 
-	function C(k) {
-	  var ret = 0;
-	  for (var i = 0; i < n-k; i++)
-	    ret += s[i]*s[i+k];
-	  return ret;
+	function C() {
+		c = [0];
+		for (var i = 1; i <= n; i++) {
+			c.push(Cinv(i));
+		}
 	}
 
-	function E() {
+	function Cinv(k) {
 		var ret = 0;
-		for (var k = 1; k <= n - 1; k++) {
-			ret += C(k) * C(k);
+		for (var i = 0; i < n-k; i++) {
+			ret += s[i]*s[i+k];
 		}
 		return ret;
 	}
 
+	function E() {
+		e = 0;
+		for (var k = 1; k <= n - 1; k++) {
+			e += c[k] * c[k];
+		}
+	}
+
 	function F() {
-		return n * n / 2 / E();
+		f = n * n / 2 / e;
+	}
+
+	function calculateAfter(index) {
+		sn = [];
+		for (var i = 0; i < s.length; i++) {
+			sn.push(s[i]);
+		}
+		sn[index] *= -1;
+		cn = [0];
+		for (var i = 1; i <= n; i++) {
+			cn.push(Cinvn(i));
+		}
+	}
+
+	function Cinvn(k) {
+		var ret = 0;
+		for (var i = 0; i < n-k; i++) {
+			ret += sn[i]*sn[i+k];
+		}
+		return ret;
 	}
 
 	function process() {
@@ -60,20 +91,78 @@ $(document).ready(function() {
 			}
 			curValue *= -1;
 		}
+		recreateSVG();
 		calculateAndOutput();
 	}
 
+	function recreateSVG() {
+		$('#svg-container').html('<svg id="svg-canvas" height="400" width="' + (50 * (n - 1)) + '"></svg>');
+	}
+
 	function calculateAndOutput() {
+		C();
+		E();
+		F();
 		$('#n').text(n);
 		//$("#s").text(s);
-		$('#e').text(E());
-		$('#f').text(F().toFixed(2));
+		$('#e').text(e);
+		$('#f').text(f.toFixed(2));
+		redraw();
+	}
+
+	function redraw() {
+		redrawButtons();
+		redrawSVG(false);
+	}
+
+	function redrawButtons() {
 		for (var i = 0; i < s.length; i++) {
 			showButton(i, s[i]);
 		}
 		for (var i = bc; i >= s.length; i--) {
 			hideButton(i);
 		}
+	}
+
+	function redrawSVG(usenew) {
+		var svghtml = '';
+		for (var i = 1; i < c.length; i++) {
+			var size = 200 * (c[i] / n);
+			var y;
+			if (c[i] > 0) {
+				y = 200 - size;
+			}
+			else {
+				y = 250;
+			}
+			if (size < 0) {
+				size *= -1;
+			}
+			var x = -40 + (i * 50);
+			svghtml += '<text x="' + x + '" y="225">' + i + '</text><rect x="' + x + '" y="' + y + '" width="30" height="' + size + '" style="fill:rgb(0, 0, 255)" />';
+		}
+		if (usenew) {
+			for (var i = 1; i < cn.length; i++) {
+				var size = 200 * (cn[i] / n);
+				var y;
+				if (cn[i] > 0) {
+					y = 200 - size;
+				}
+				else {
+					y = 250;
+				}
+				if (size < 0) {
+					size *= -1;
+				}
+				var x = -40 + (i * 50);
+				var colour = "255, 0, 0";
+				if (c[i] > 0 && cn[i] <= c[i] || c[i] < 0 && cn[i] >= c[i]) {
+					colour = "0, 255, 0";
+				}
+				svghtml += '<rect x="' + x + '" y="' + y + '" width="30" height="' + size + '" style="fill:rgb(' + colour + ')" />';	
+			}
+		}
+		$('#svg-canvas').html(svghtml);
 	}
 
 	function hideButton(index) {
@@ -119,15 +208,29 @@ $(document).ready(function() {
 		process(); 
 	});
 
-	$('body').mousewheel(function(event, delta) {
+	$('#buttons').mousewheel(function(event, delta) {
 		$('#buttons')[0].scrollLeft -= (delta * 30);
 		event.preventDefault();
 	});
 
-   $('body').on('click', '.bit-button', function(event) {
-   		s[parseInt($(event.target).attr('data-id'))] *= -1;
-   		calculateAndOutput();
-   		replaceRLN();
-   });
+	$('#svg-container').mousewheel(function(event, delta) {
+		$('#svg-container')[0].scrollLeft -= (delta * 30);
+		event.preventDefault();
+	});
+
+	$('body').on('click', '.bit-button', function(event) {
+		s[parseInt($(event.target).attr('data-id'))] *= -1;
+		calculateAndOutput();
+		replaceRLN();
+	});
+
+	$('body').on('mouseenter', '.bit-button', function(event) {
+		calculateAfter(parseInt($(event.target).attr('data-id')));
+		redrawSVG(true);
+	});
+
+	$('body').on('mouseleave', '.bit-button', function(event) {
+		redrawSVG(false);
+	})
 
 });
