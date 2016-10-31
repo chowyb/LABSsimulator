@@ -231,12 +231,12 @@ $(document).ready(function() {
 	});
 
 	$('#buttons').mousewheel(function(event, delta) {
-		$('#buttons')[0].scrollLeft -= (delta * 30);
+		$('#buttons')[0].scrollLeft -= (delta * 60);
 		event.preventDefault();
 	});
 
 	$('#svg-container').mousewheel(function(event, delta) {
-		$('#svg-container')[0].scrollLeft -= (delta * 30);
+		$('#svg-container')[0].scrollLeft -= (delta * 60);
 		event.preventDefault();
 	});
 
