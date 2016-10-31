@@ -7,6 +7,8 @@ $(document).ready(function() {
 	var cn;
 	var e;
 	var f;
+	var en;
+	var fn;
 
 	function convert(ch) {
 		if ('A' <= ch && ch <= 'Z') {
@@ -62,6 +64,8 @@ $(document).ready(function() {
 		for (var i = 1; i <= n; i++) {
 			cn.push(Cinvn(i));
 		}
+		En();
+		Fn();
 	}
 
 	function Cinvn(k) {
@@ -70,6 +74,17 @@ $(document).ready(function() {
 			ret += sn[i]*sn[i+k];
 		}
 		return ret;
+	}
+
+	function En() {
+		en = 0;
+		for (var k = 1; k <= n - 1; k++) {
+			en += cn[k] * cn[k];
+		}
+	}
+
+	function Fn() {
+		fn = n * n / 2 / en;
 	}
 
 	function process() {
@@ -103,16 +118,23 @@ $(document).ready(function() {
 		C();
 		E();
 		F();
-		$('#n').text(n);
-		//$("#s").text(s);
-		$('#e').text(e);
-		$('#f').text(f.toFixed(2));
-		redraw();
+		redraw(false);
 	}
 
-	function redraw() {
+	function redraw(usenew) {
+		$('#n').text(n);
+		$('#e').text(e);
+		$('#f').text(f.toFixed(2));
 		redrawButtons();
-		redrawSVG(false);
+		redrawSVG(usenew);
+		if (usenew) {
+			$('#en').text('(' + en + ')');
+			$('#fn').text('(' + fn.toFixed(2) + ')');
+		}
+		else {
+			$('#en').text('');
+			$('#fn').text('');
+		}
 	}
 
 	function redrawButtons() {
@@ -226,11 +248,11 @@ $(document).ready(function() {
 
 	$('body').on('mouseenter', '.bit-button', function(event) {
 		calculateAfter(parseInt($(event.target).attr('data-id')));
-		redrawSVG(true);
+		redraw(true);
 	});
 
 	$('body').on('mouseleave', '.bit-button', function(event) {
-		redrawSVG(false);
+		redraw(false);
 	})
 
 });
