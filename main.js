@@ -156,7 +156,7 @@ $(document).ready(function() {
 				}
 				var x = -40 + (i * 50);
 				var colour = "255, 0, 0";
-				if (c[i] > 0 && cn[i] <= c[i] || c[i] < 0 && cn[i] >= c[i]) {
+				if (Math.abs(c[i]) >= Math.abs(cn[i])) {
 					colour = "0, 255, 0";
 				}
 				svghtml += '<rect x="' + x + '" y="' + y + '" width="30" height="' + size + '" style="fill:rgb(' + colour + ')" />';	
