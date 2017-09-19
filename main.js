@@ -63,16 +63,19 @@ $(document).ready(function() {
         sn[index] *= -1;
         cn = [0];
         for (var i = 1; i <= n; i++) {
-            cn.push(Cinvn(i));
+            cn.push(Cinvn(i, index));
         }
         En();
         Fn();
     }
 
-    function Cinvn(k) {
-        var ret = 0;
-        for (var i = 0; i < n-k; i++) {
-            ret += sn[i]*sn[i+k];
+    function Cinvn(k, index) {
+        var ret = c[k];
+        if (index - k >= 0) {
+            ret += 2 * sn[index - k] * sn[index];
+        }
+        if (index + k < n) {
+            ret += 2 * sn[index + k] * sn[index];
         }
         return ret;
     }
