@@ -1,10 +1,10 @@
 #buttons, #svg-container {
     overflow-x: auto;
     overflow-y: hidden;
-	white-space: nowrap;
+    white-space: nowrap;
 }
 
 .bit-span {
-	display:inline-block;
-	text-align: center;
+    display:inline-block;
+    text-align: center;
 }
