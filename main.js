@@ -127,13 +127,29 @@ $(document).ready(function() {
         $('#f').text(f.toFixed(2));
         redrawButtons();
         redrawSVG(usenew);
+        $en = $('#en');
+        $fn = $('#fn');
         if (usenew) {
-            $('#en').text('(' + en + ')');
-            $('#fn').text('(' + fn.toFixed(2) + ')');
+            $en.text('(' + en + ')');
+            if (en > e) {
+                $en.addClass('text-red');
+            }
+            else if (en < e) {
+                $en.addClass('text-green');
+            }
+            $fn.text('(' + fn.toFixed(2) + ')');
+            if (fn < f) {
+                $fn.addClass('text-red');
+            }
+            else if (fn > f) {
+                $fn.addClass('text-green');
+            }
         }
         else {
-            $('#en').text('');
-            $('#fn').text('');
+            $en.text('');
+            $fn.text('');
+            $en.removeClass('text-red text-green');
+            $fn.removeClass('text-red text-green');
         }
     }
 

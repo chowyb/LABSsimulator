@@ -5,6 +5,14 @@
 }
 
 .bit-span {
-    display:inline-block;
+    display: inline-block;
     text-align: center;
+}
+
+.text-red {
+    color: red;
+}
+
+.text-green {
+    color: green;
 }
