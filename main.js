@@ -9,6 +9,7 @@ $(document).ready(function() {
     var f;
     var en;
     var fn;
+    var showSVG = false;
 
     function convert(ch) {
         if ('A' <= ch && ch <= 'Z') {
@@ -106,7 +107,9 @@ $(document).ready(function() {
             }
             curValue *= -1;
         }
-        recreateSVG();
+        if (showSVG) {
+            recreateSVG();
+        }
         calculateAndOutput();
     }
 
@@ -126,7 +129,9 @@ $(document).ready(function() {
         $('#e').text(e);
         $('#f').text(f.toFixed(2));
         redrawButtons();
-        redrawSVG(usenew);
+        if (showSVG) {
+            redrawSVG(usenew);
+        }
         $en = $('#en');
         $fn = $('#fn');
         if (usenew) {
@@ -259,6 +264,20 @@ $(document).ready(function() {
         $('#buttons')[0].scrollLeft -= (delta * 60);
         event.preventDefault();
     });
+
+    $('#svg-toggle').on('click', function(event) {
+        showSVG = !showSVG;
+        if (showSVG) {
+            $('#svg-container').show(0);
+            $('#svg-toggle').text('Hide');
+            recreateSVG();
+            calculateAndOutput();
+        }
+        else {
+            $('#svg-container').hide(0);
+            $('#svg-toggle').text('Show');
+        }
+    })
 
     $('#svg-container').mousewheel(function(event, delta) {
         $('#svg-container')[0].scrollLeft -= (delta * 60);
