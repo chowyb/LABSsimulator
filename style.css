@@ -16,3 +16,11 @@
 .text-green {
     color: green;
 }
+
+.button-red {
+    background-color: #c66;
+}
+
+.button-green {
+    background-color: #6c6;
+}

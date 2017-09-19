@@ -211,8 +211,17 @@ $(document).ready(function() {
         if (index >= bc) {
             createNewButton();
         }
-        $('#button-' + index).show(0);
+        $button = $('#button-' + index);
+        $button.show(0);
+        $button.removeClass('button-red button-green');
+        if (value === -1) {
+            $button.addClass('button-red');
+        }
+        else {
+            $button.addClass('button-green');
+        }
         $('#button-text-' + index).html(value);
+
     }
 
     function createNewButton() {
