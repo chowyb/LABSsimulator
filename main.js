@@ -124,14 +124,16 @@ $(document).ready(function() {
         C();
         E();
         F();
-        redraw(false);
+        redraw(false, true);
     }
 
-    function redraw(usenew) {
+    function redraw(usenew, drawbuttons) {
         $('#n').text(n);
         $('#e').text(e);
         $('#f').text(f.toFixed(2));
-        redrawButtons();
+        if (drawbuttons) {
+            redrawButtons();
+        }
         if (showSVG) {
             redrawSVG(usenew);
         }
@@ -295,11 +297,11 @@ $(document).ready(function() {
 
     $('body').on('mouseenter', '.bit-button', function(event) {
         calculateAfter(parseInt($(event.target).attr('data-id')));
-        redraw(true);
+        redraw(true, false);
     });
 
     $('body').on('mouseleave', '.bit-button', function(event) {
-        redraw(false);
+        redraw(false, false);
     })
 
 });
